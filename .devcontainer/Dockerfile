@@ -2,9 +2,13 @@ FROM ubuntu:24.04
 
 # 必要なパッケージをインストール
 RUN apt-get update \
-    && apt-get upgrade -y apt-utils curl vim python3.12 python3-pip python3.12-venv git \
+    && apt-get install -y apt-utils curl vim python3.12 python3-pip python3.12-venv git \
+    && apt-get upgrade -y \
     && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* 
+
+RUN apt-get update \
+    && apt install -y libopencv-dev
 
 # Pythonの仮想環境を作成
 RUN python3 -m venv /opt/venv
@@ -22,5 +26,6 @@ RUN pip install --upgrade pip && \
 
 # PyTorchをインストール
 RUN pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu124
+
 
 WORKDIR /workspaces
